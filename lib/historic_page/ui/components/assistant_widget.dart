@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 class AssistantWidget extends StatelessWidget {
   const AssistantWidget({
     super.key,
+    this.addWidget = false,
   });
+
+  final bool addWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class AssistantWidget extends StatelessWidget {
         bottom: 10,
       ),
       decoration: BoxDecoration(
-        color: Colors.cyan[300],
+        color: addWidget? Colors.grey[400] : Colors.cyan[400],
         borderRadius: BorderRadius.circular(50),
         boxShadow: [
           BoxShadow(
@@ -25,10 +28,10 @@ class AssistantWidget extends StatelessWidget {
           ),
         ],
       ),
-      width: 90,
-      height: 90,
-      child: const Icon(
-        Icons.android,
+      width: 80,
+      height: 80,
+      child: Icon(
+        addWidget? Icons.add:Icons.android,
         size: 50,
         color: Colors.white,
       ),

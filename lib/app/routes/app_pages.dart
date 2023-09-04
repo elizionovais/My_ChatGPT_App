@@ -6,8 +6,6 @@ import 'package:my_chat_gpt/home_page/ui/home_page.dart';
 import '../../chat_page/binding/chat_page_binding.dart';
 import '../../historic_page/binding/historic_page_binding.dart';
 import '../../historic_page/ui/historic_page.dart';
-import '../../login_page/binding/login_page_binding.dart';
-import '../../login_page/ui/login_page.dart';
 import 'app_routes.dart';
 
 abstract class AppPages {
@@ -21,11 +19,6 @@ abstract class AppPages {
       name: AppRoutes.CHAT,
       page: () => const ChatPage(),
       binding: ChatPageBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.LOGIN,
-      page: () => const LoginPage(),
-      binding: LoginPageBinding(),
     ),
     GetPage(
       name: AppRoutes.HISTORIC,

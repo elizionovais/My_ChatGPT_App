@@ -39,11 +39,12 @@ class HistoricPage extends GetView<HistoricPageController> {
                           ),
                         ],
                       ),
-                      child: const Row(
-                        children: [
-                          AssistantWidget(),
-                        ],
-                      ),
+                      child: const Row(children: [
+                        AssistantWidget(),
+                        AssistantWidget(
+                          addWidget: true,
+                        ),
+                      ]),
                     ),
                   ],
                 ),
