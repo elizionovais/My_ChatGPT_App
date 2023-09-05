@@ -39,12 +39,27 @@ class HistoricPage extends GetView<HistoricPageController> {
                           ),
                         ],
                       ),
-                      child: const Row(children: [
-                        AssistantWidget(),
-                        AssistantWidget(
-                          addWidget: true,
-                        ),
-                      ]),
+                      child: Obx(() {
+                        return Row(
+                          children: List.generate(controller.assistantsList.length + 1, (index) {
+                            if (index > controller.assistantsList.length - 1) {
+                              return AssistantWidget(
+                                isAddWidget: true,
+                                onTap: () {
+                                  controller.assistantsList.add('Assistente ${controller.assistantsList.length + 1}');
+                                },
+                              );
+                            } else {
+                              return AssistantWidget(
+                                onTap: () {},
+                                onLongPress: () {
+                                  controller.assistantsList.removeAt(index);
+                                },
+                              );
+                            }
+                          }),
+                        );
+                      }),
                     ),
                   ],
                 ),
