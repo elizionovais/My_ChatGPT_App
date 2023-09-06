@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controller/historic_page_controller.dart';
-import 'components/assistant_widget.dart';
 import 'components/historic_card.dart';
 
 class HistoricPage extends GetView<HistoricPageController> {
@@ -17,55 +16,35 @@ class HistoricPage extends GetView<HistoricPageController> {
           floatingActionButton: FloatingActionButton(
               backgroundColor: Colors.cyan[300],
               onPressed: () {
-                controller.goToNextPage();
+                Get.defaultDialog(
+                  title: 'Adicionar Assistente',
+                  content: TextFormField(
+                    controller: controller.assistantController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Meu Chat é um ...',
+                    ),
+                  ),
+                  textConfirm: 'Adicionar',
+                  textCancel: 'Cancelar',
+                  confirmTextColor: Colors.orange,
+                  onConfirm: () {
+                    controller.assistantsList.add(controller.assistantController.text);
+                    controller.goToNextPage();
+                    controller.assistantController.clear();
+                  },
+                  onCancel: () {
+                    Get.back();
+                  },
+                );
               },
               child: const Icon(Icons.messenger)),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(
-                height: 120,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.white.withOpacity(0.1),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Obx(() {
-                        return Row(
-                          children: List.generate(controller.assistantsList.length + 1, (index) {
-                            if (index > controller.assistantsList.length - 1) {
-                              return AssistantWidget(
-                                isAddWidget: true,
-                                onTap: () {
-                                  controller.assistantsList.add('Assistente ${controller.assistantsList.length + 1}');
-                                },
-                              );
-                            } else {
-                              return AssistantWidget(
-                                onTap: () {},
-                                onLongPress: () {
-                                  controller.assistantsList.removeAt(index);
-                                },
-                              );
-                            }
-                          }),
-                        );
-                      }),
-                    ),
-                  ],
-                ),
-              ),
               Container(
                 margin: const EdgeInsets.only(
+                  top: 10,
                   bottom: 10,
                   left: 10,
                 ),
@@ -84,7 +63,7 @@ class HistoricPage extends GetView<HistoricPageController> {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: List.generate(1, (index) => const HistoricCard()),
+                      children: List.generate(2, (index) => const HistoricCard()),
                     ),
                   ],
                 ),
