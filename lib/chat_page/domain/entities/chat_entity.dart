@@ -4,7 +4,7 @@ class ChatEntity {
   final String message;
   final String role;
   final String? typeAssistant;
-  final String? id;
+  String? id;
   final DateTime time;
 
   ChatEntity({

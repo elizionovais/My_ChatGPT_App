@@ -26,23 +26,26 @@ class HistoricPageController extends GetxController {
   }
 
   Future<void> saveChat() async {
-    final newChat = ChatEntity(message: '', role: '', time: DateTime.now(), typeAssistant: assistantController.text);
+    final newChat =
+        ChatEntity(message: '', role: 'user', time: DateTime.now(), typeAssistant: assistantController.text);
 
-    SaveChatUseCase sendContactUsUseCase = Get.find();
-    final result = await sendContactUsUseCase.call(newChat);
+    SaveChatUseCase saveChatUseCase = Get.find();
+    final result = await saveChatUseCase.call(newChat);
     result.fold((l) {
       Get.snackbar(
         'Error',
         l.message!,
       );
     }, (r) async {
+      newChat.id = r;
       goToNextPage(newChat);
     });
   }
 
   Future<void> deleteChat(ChatEntity chat) async {
-    DeleteChatUseCase sendContactUsUseCase = Get.find();
-    final result = await sendContactUsUseCase.call(chat);
+    DeleteChatUseCase deleteChatUseCase = Get.find();
+    final result = await deleteChatUseCase.call(chat);
+
     result.fold((l) {
       Get.snackbar(
         'Error',
@@ -53,6 +56,7 @@ class HistoricPageController extends GetxController {
         'Success',
         'Chat deleted',
       );
+      chats.remove(chat);
     });
   }
 
@@ -71,5 +75,4 @@ class HistoricPageController extends GetxController {
       isLoading.value = false;
     });
   }
-
 }

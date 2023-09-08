@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../domain/entities/chat_entity.dart';
 
-class ChatModel{
+class ChatModel {
   final String message;
   final String role;
   final String? typeAssistant;
-  final String? id;
+  String? id;
   final DateTime time;
 
   ChatModel({
@@ -21,17 +23,17 @@ class ChatModel{
       role: json['role'],
       typeAssistant: json['typeAssistant'],
       id: json['id'],
-      time: DateTime.parse(json['time']),
+      time: Timestamp.fromDate(json['time'].toDate()).toDate(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'message': message,
-      'sender': role,
+      'role': role,
       'typeAssistant': typeAssistant,
       'id': id,
-      'time': time.toIso8601String(),
+      'time': time,
     };
   }
 

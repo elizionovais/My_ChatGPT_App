@@ -16,7 +16,7 @@ class ChatPage extends GetView<ChatPageController> {
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         backgroundColor: Colors.cyan[300],
-        title: const Text('Meu assistente'),
+        title: Text(controller.chatEntity!.typeAssistant!),
       ),
       body: Column(
         children: [

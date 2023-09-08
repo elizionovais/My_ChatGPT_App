@@ -21,28 +21,28 @@ class ChatDataSourceImpl implements ChatDataSource {
 
   @override
   Future<List<ChatModel>> getChats() async {
-    try{
+    try {
       QuerySnapshot querySnapshot = await firebaseFirestore.collection("/chats").get();
       List<ChatModel> chats = querySnapshot.docs.map((doc) {
         return ChatModel.fromJson(doc.data() as Map<String, dynamic>);
       }).toList();
       return chats;
-    }  catch (e) {
+    } catch (e) {
       throw GetChatsException(e.toString());
-    } 
+    }
   }
 
   @override
-  Future<bool> saveChat(ChatModel chatModel) async{
+  Future<String> saveChat(ChatModel chatModel) async {
     try {
-      await firebaseFirestore.collection("/chats").add(chatModel.toJson());
-      if(chatModel.id == null) {
-        await firebaseFirestore.collection("/chats").doc(chatModel.id).update({"id": firebaseFirestore.collection("/chats").doc(chatModel.id).id});
-      }
-      return true;
+      CollectionReference collection = FirebaseFirestore.instance.collection('chats');
+      DocumentReference novoDocumento = collection.doc();
+      String novoDocumentoId = novoDocumento.id;
+      chatModel.id = novoDocumentoId;
+      await novoDocumento.set(chatModel.toJson());
+      return novoDocumentoId;
     } catch (e) {
       throw SaveChatException(e.toString());
     }
   }
-
-  }
+}

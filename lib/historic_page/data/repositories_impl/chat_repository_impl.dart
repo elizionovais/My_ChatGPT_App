@@ -43,7 +43,7 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> saveChat(ChatEntity chatEntity) async{
+  Future<Either<Failure, String>> saveChat(ChatEntity chatEntity) async{
     try {
       final result = await dataSource.saveChat(ChatModel.fromEntity(chatEntity));
 

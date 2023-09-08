@@ -12,6 +12,7 @@ class UpdateChatDataSourceImpl implements UpdateChatDataSource {
   Future<bool> updateChat(ChatModel chatModel) async {
     try{
       await firebaseFirestore.collection("/chats").doc(chatModel.id).update({
+        "role": chatModel.role,
         "message": chatModel.message,
         "time": chatModel.time,
       });

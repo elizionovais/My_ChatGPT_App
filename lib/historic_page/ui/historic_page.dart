@@ -31,6 +31,7 @@ class HistoricPage extends GetView<HistoricPageController> {
                   confirmTextColor: Colors.orange,
                   onConfirm: () {
                     controller.saveChat();
+                    controller.assistantController.clear();
                   },
                   onCancel: () {
                     Get.back();
@@ -60,52 +61,49 @@ class HistoricPage extends GetView<HistoricPageController> {
               Expanded(
                 child: ListView(
                   children: [
-                    Obx(
-                      () {
-                        if (controller.isLoading.value) {
-                          return Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: List.generate(
-                            5,
-                            (index) => const HistoricCardShimmer(height: 90),
-                          )
-                        );
-                        }
-                        if (controller.chats.isEmpty) {
-                          return const Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              SizedBox(height: 20),
-                              Center(
-                                child: Text(
-                                  ':( Você ainda não tem conversas salvas',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          );
-                        }
+                    Obx(() {
+                      if (controller.isLoading.value) {
                         return Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: List.generate(
+                              5,
+                              (index) => const HistoricCardShimmer(height: 90),
+                            ));
+                      }
+                      if (controller.chats.isEmpty) {
+                        return const Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: List.generate(
-                            controller.chats.length,
-                            (index) => HistoricCard(
-                            chatEntity: controller.chats[index],
-                            onTap: () {
-                              controller.goToNextPage(controller.chats[index]);
-                            },
-                            onDelete: () {
-                              controller.deleteChat(controller.chats[index]);
-                            },
-                          )),
+                          children: [
+                            SizedBox(height: 20),
+                            Center(
+                              child: Text(
+                                ':( Você ainda não tem conversas salvas',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
                         );
                       }
-                    ),
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: List.generate(
+                            controller.chats.length,
+                            (index) => HistoricCard(
+                                  chatEntity: controller.chats[index],
+                                  onTap: () {
+                                    controller.goToNextPage(controller.chats[index]);
+                                  },
+                                  onDelete: () {
+                                    controller.deleteChat(controller.chats[index]);
+                                  },
+                                )),
+                      );
+                    }),
                   ],
                 ),
               )
